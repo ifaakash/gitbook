@@ -9,6 +9,8 @@ icon: docker
 * In docker-compose file, we can manage the services + volumes + ports.&#x20;
 * Using docker-compose file, we can deploy a micro-service using the pre-build images from [Dockerhub](https://hub.docker.com/) or we can build an image by referencing the build context
 
+***
+
 ## Build context in Docker
 
 Build context referes to the filesystem that will be used to store the files ( in the container ) and from the local filesystem. This is important when creating a Dockerfile or referencing in the docker-compose
@@ -76,6 +78,8 @@ build:
     dockerfile: Dockerfile.frontend
 ```
 
+***
+
 ## What does dot(.) refer in docker context?
 
 The dot(.) refer to the local file system. It's the path where the docker-compose file exists, or the Dockerfile exists.&#x20;
@@ -127,4 +131,30 @@ If you tried to copy a file from `../` (outside `.`), the build would fail — D
   * only include what’s required for the build
 * **Ignore unnecessary files**
   * Use `.dockerignore` to exclude files/folders from the context to speed up builds.
+
+***
+
+## Docker compose commands
+
+### Managing containers
+
+<table><thead><tr><th width="230">Command</th><th>Description</th></tr></thead><tbody><tr><td><code>docker-compose up</code></td><td>Builds (if needed) and starts all services in the foreground (shows logs).</td></tr><tr><td><code>docker-compose up -d</code></td><td>Starts services in <strong>detached mode</strong> (background).</td></tr><tr><td><code>docker-compose down</code></td><td>Stops and removes containers, networks, and by default keeps volumes &#x26; images.</td></tr><tr><td><code>docker-compose down -v</code></td><td>Stops and <strong>removes volumes</strong> too. Useful for a clean slate.</td></tr><tr><td><code>docker-compose stop</code></td><td>Stops containers <strong>without removing them</strong> (they can be started again).</td></tr><tr><td><code>docker-compose start</code></td><td>Starts previously stopped containers (no rebuild).</td></tr><tr><td><code>docker-compose restart</code></td><td>Restarts all services.</td></tr></tbody></table>
+
+### Building image
+
+<table><thead><tr><th width="230">Command</th><th>Description</th></tr></thead><tbody><tr><td><code>docker-compose build</code></td><td>Builds or rebuilds images defined in the compose file.</td></tr><tr><td><code>docker-compose build --no-cache</code></td><td>Rebuilds images <strong>without using cache</strong> (fresh build).</td></tr><tr><td><code>docker-compose build &#x3C;service></code></td><td>Builds image for a specific service (e.g. <code>frontend</code>).</td></tr><tr><td><code>docker-compose pull</code></td><td>Pulls service images from Docker Hub (if you’re using pre-built ones).</td></tr></tbody></table>
+
+### Debugging
+
+<table><thead><tr><th width="229.5">Command</th><th>Description</th></tr></thead><tbody><tr><td><code>docker-compose ps</code></td><td>Lists containers created by the Compose project.</td></tr><tr><td><code>docker-compose logs</code></td><td>Shows logs from all services.</td></tr><tr><td><code>docker-compose logs -f</code></td><td>Follows (tails) the logs in real-time.</td></tr><tr><td><code>docker-compose logs &#x3C;service></code></td><td>Shows logs for a single service.</td></tr><tr><td><code>docker-compose top</code></td><td>Displays running processes of the containers.</td></tr><tr><td><code>docker-compose exec &#x3C;service> &#x3C;cmd></code></td><td>Execute a command in a running container (e.g. <code>docker-compose exec backend bash</code>).</td></tr><tr><td><code>docker-compose run &#x3C;service> &#x3C;cmd></code></td><td>Runs a <strong>one-time command</strong> in a new container. Useful for DB migrations, testing, etc.</td></tr></tbody></table>
+
+### Cleanup
+
+<table><thead><tr><th width="229.5">Command</th><th>Description</th></tr></thead><tbody><tr><td><code>docker-compose rm</code></td><td>Removes stopped containers.</td></tr><tr><td><code>docker-compose down --rmi all</code></td><td>Removes <strong>all images</strong> built or pulled by Compose.</td></tr><tr><td><code>docker-compose down -v --rmi all</code></td><td>Nukes everything — containers, volumes, and images. 🔥</td></tr><tr><td><code>docker-compose kill</code></td><td>Forcefully stops containers (sends <code>SIGKILL</code>).</td></tr></tbody></table>
+
+
+
+
+
+
 
