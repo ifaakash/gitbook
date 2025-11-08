@@ -23,6 +23,7 @@
   * [Jenkins Image using docker](group-3/docker/jenkins-image-using-docker.md)
   * [Docker scout](group-3/docker/docker-scout.md)
   * [Docker topics](group-3/docker/docker-topics.md)
+  * [How docker-compose works?](group-3/docker/how-docker-compose-works.md)
 
 ## Group 4
 
