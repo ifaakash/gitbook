@@ -1,3 +1,7 @@
+---
+icon: github
+---
+
 # Repository Structure and Local Setup
 
 ### Install required dependency

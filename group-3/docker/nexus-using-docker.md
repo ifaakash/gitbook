@@ -2,6 +2,7 @@
 description: >-
   Nexus can serve as a private Docker registry, which is particularly useful for
   storing and managing your Docker images.
+icon: docker
 ---
 
 # Nexus using Docker

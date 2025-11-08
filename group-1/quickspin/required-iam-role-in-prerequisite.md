@@ -1,5 +1,6 @@
 ---
 description: This page contain the list of the setup required from the regards of IAM role
+icon: github
 ---
 
 # Required IAM Role in prerequisite

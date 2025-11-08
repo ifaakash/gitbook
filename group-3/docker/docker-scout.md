@@ -1,3 +1,7 @@
+---
+icon: docker
+---
+
 # Docker scout
 
 What's next: View a summary of image vulnerabilities and recommendations → docker scout quickview aakashmac@Aakashs-MacBook-Air oct5 % docker scout quickview i New version 1.14.0 available (installed version is 1.13.0) at https://github.com/docker/scout-cli ✓ Image stored for indexing ✓ Indexed 158 packages

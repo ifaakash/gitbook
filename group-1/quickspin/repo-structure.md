@@ -2,6 +2,7 @@
 description: >-
   This page contain the details about how the repository for QuickSpin is
   structured
+icon: github
 ---
 
 # Repo Structure

@@ -3,6 +3,7 @@ description: >-
   Unlock Jenkins  To ensure Jenkins is securely set up by the administrator, a
   password has been written to the log (not sure where to find it?) and this
   file on the server:  /var/jenkins_home/secrets/i
+icon: docker
 ---
 
 # Jenkins Image using docker

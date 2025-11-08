@@ -24,6 +24,7 @@
   * [Docker scout](group-3/docker/docker-scout.md)
   * [Docker topics](group-3/docker/docker-topics.md)
   * [How docker-compose works?](group-3/docker/how-docker-compose-works.md)
+  * [Volumes and Networking in Docker](group-3/docker/volumes-and-networking-in-docker.md)
 
 ## Group 4
 

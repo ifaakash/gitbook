@@ -1,5 +1,6 @@
 ---
 description: What happens when we attach the EIP to NAT Gateway
+icon: aws
 ---
 
 # NAT with EIP

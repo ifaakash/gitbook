@@ -1,3 +1,7 @@
+---
+icon: aws
+---
+
 # How to setup OIDC connection with Github Repository?
 
 To setup the OIDC connection, follow the below steps:

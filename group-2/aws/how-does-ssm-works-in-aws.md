@@ -3,6 +3,7 @@ description: >-
   This page describe the working of Session Manager and how to use it, for
   establishing a complete isolate and private network for connection to EC2
   instance
+icon: aws
 ---
 
 # How does SSM Works in AWS?

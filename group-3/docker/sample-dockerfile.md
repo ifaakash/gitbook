@@ -1,3 +1,7 @@
+---
+icon: docker
+---
+
 # Sample Dockerfile
 
 ```docker

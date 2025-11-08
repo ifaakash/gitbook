@@ -1,5 +1,6 @@
 ---
 description: Docker concepts and basic commands
+icon: docker
 ---
 
 # Docker
