@@ -61,3 +61,7 @@
 ## Group 8
 
 * [Homelab](group-8/homelab.md)
+
+***
+
+* [Important kernel path for DevOps](important-kernel-path-for-devops.md)
