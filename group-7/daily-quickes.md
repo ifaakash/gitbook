@@ -1,5 +1,6 @@
 ---
 description: This page include all the quickies done on a particular day
+icon: atom
 ---
 
 # Daily Quickes

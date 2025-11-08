@@ -37,14 +37,11 @@
   * [Parent-child pipeline gitlab-ci.yml](group-4/exercises/parent-child-pipeline-gitlab-ci.yml.md)
   * [Using rules in Gitlab](group-4/exercises/using-rules-in-gitlab.md)
   * [Terraform Training](group-4/exercises/terraform-training.md)
-
-***
-
-* [Upgrade Plan](upgrade-plan/README.md)
-  * [Final Upgrade Plan](upgrade-plan/final-upgrade-plan.md)
-  * [Contractual JD](upgrade-plan/contractual-jd.md)
-  * [Week 1-2 \[ till 20th Sept \]](upgrade-plan/week-1-2-till-20th-sept.md)
-  * [Terraform - Sept 15th](upgrade-plan/terraform-sept-15th.md)
+  * [Upgrade Plan](group-4/exercises/upgrade-plan/README.md)
+    * [Final Upgrade Plan](group-4/exercises/upgrade-plan/final-upgrade-plan.md)
+    * [Contractual JD](group-4/exercises/upgrade-plan/contractual-jd.md)
+    * [Week 1-2 \[ till 20th Sept \]](group-4/exercises/upgrade-plan/week-1-2-till-20th-sept.md)
+    * [Terraform - Sept 15th](group-4/exercises/upgrade-plan/terraform-sept-15th.md)
 
 ## Group 5
 

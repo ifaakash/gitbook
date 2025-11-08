@@ -1,5 +1,6 @@
 ---
 description: This page content the README and the documentation for the QuickSpin project
+icon: github
 ---
 
 # Quickspin

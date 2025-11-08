@@ -1,3 +1,7 @@
+---
+icon: dumbbell
+---
+
 # FitBuddy
 
 ## Github Repository
