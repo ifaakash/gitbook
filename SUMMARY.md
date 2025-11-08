@@ -59,3 +59,7 @@
 ## Group 7
 
 * [Daily Quickes](group-7/daily-quickes.md)
+
+## Group 8
+
+* [Homelab](group-8/homelab.md)
