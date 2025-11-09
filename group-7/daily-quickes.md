@@ -99,7 +99,17 @@ Build context decide what will be used as the root filesystem, by the docker con
 
 </details>
 
+<details>
 
+<summary>7th Nov</summary>
+
+### How does nginx works to route traffic to PHP application, if they are running together using docker-compose?
+
+
+
+### How to mount a sql dump to a mariadb database OR to a mysql container in docker-compose file?
+
+</details>
 
 
 
@@ -230,8 +240,6 @@ postgres:
 The key insight: **`expose` is about documentation and internal networking, `ports` is about external access.**&#x20;
 
 ### How to define Database URL in .env file, when multiple containers are running
-
-
 
 
 

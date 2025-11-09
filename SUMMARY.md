@@ -27,6 +27,8 @@
   * [Volumes in Docker](group-3/docker/volumes-in-docker.md)
   * [getIP application](group-3/docker/getip-application.md)
   * [Networking in Docker](group-3/docker/networking-in-docker.md)
+  * [How to containerize different language application](group-3/docker/how-to-containerize-different-language-application.md)
+  * [Understanding OS kernel before containerization](group-3/docker/understanding-os-kernel-before-containerization.md)
 
 ## Group 4
 
