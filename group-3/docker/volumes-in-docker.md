@@ -3,7 +3,7 @@ description: This page covers the concept about how volumes and network works in
 icon: docker
 ---
 
-# Volumes and Networking in Docker
+# Volumes in Docker
 
 ## Volumes
 
@@ -189,7 +189,7 @@ A container is ephemeral (throwaway), but volumes are not — they’re **first-
 
 ***
 
-#### 🧠 TL;DR
+#### TL;DR
 
 <table><thead><tr><th>Action</th><th width="179">Volume persists?</th><th>Notes</th></tr></thead><tbody><tr><td><code>docker rm container</code></td><td>✅ Yes</td><td>Default safe behavior</td></tr><tr><td><code>docker rm -v container</code></td><td>❌ No</td><td>Volume explicitly removed</td></tr><tr><td><code>docker compose down</code></td><td>✅ Yes</td><td>Keeps data</td></tr><tr><td><code>docker compose down -v</code></td><td>❌ No</td><td>Deletes data too</td></tr></tbody></table>
 
