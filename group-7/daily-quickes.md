@@ -99,3 +99,140 @@ Build context decide what will be used as the root filesystem, by the docker con
 
 </details>
 
+
+
+
+
+
+
+
+
+<details>
+
+<summary>9th Nov</summary>
+
+### Difference between expose and ports in docker compose
+
+### The Key Difference
+
+**`expose`**: Makes <mark style="background-color:yellow;">ports accessible ONLY to other containers</mark> in the same Docker network. NOT accessible from your host machine.
+
+**`ports`**: Maps <mark style="background-color:yellow;">container ports to your host machine</mark>, making them accessible from outside Docker (your browser, localhost, external clients).
+
+### Practical Example Scenario
+
+Let's say you're building a web application with:
+
+* A **frontend** (React app on port 3000)
+* A **backend API** (Node.js on port 5000)
+* A **database** (PostgreSQL on port 5432)
+
+```yaml
+version: '3.8'
+
+services:
+  frontend:
+    image: my-react-app
+    ports:
+      - "3000:3000"  # Accessible from host at localhost:3000
+    depends_on:
+      - backend
+
+  backend:
+    image: my-node-api
+    ports:
+      - "5000:5000"  # Accessible from host at localhost:5000
+    expose:
+      - "5000"       # Also accessible to frontend container
+    depends_on:
+      - database
+
+  database:
+    image: postgres:15
+    expose:
+      - "5432"       # ONLY accessible to backend, NOT from host
+    environment:
+      POSTGRES_PASSWORD: secret
+```
+
+### What's Happening Here?
+
+1. **Frontend** uses `ports` because users need to access it from their browser at `localhost:3000`
+2. **Backend** uses both:
+   * `ports` so you can test API directly at `localhost:5000` during development
+   * `expose` is actually redundant here (ports already exposes it internally)
+3. **Database** uses only `expose` because:
+   * Backend can connect to it via `database:5432` (service name)
+   * Your host machine CANNOT access it (security!)
+   * No external access needed
+
+### Best Practices
+
+**Use `expose` when:**
+
+* <mark style="background-color:yellow;">Service only needs inter-container communication</mark>
+* Security-sensitive services (databases, caches, internal APIs)
+* Production environments where you don't want direct host access
+
+**Use `ports` when:**
+
+* <mark style="background-color:yellow;">You need to access the service from your host</mark> (browser, Postman, etc.)
+* Front-facing services (web servers, APIs meant for external access)
+* Development environments where you need to debug/test directly
+
+### Better Production Example
+
+```yaml
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"      # Only entry point from outside
+    
+  api:
+    image: my-api
+    expose:
+      - "8080"       # Only nginx can reach it
+    
+  redis:
+    image: redis
+    expose:
+      - "6379"       # Only api can reach it
+    
+  postgres:
+    image: postgres
+    expose:
+      - "5432"       # Only api can reach it
+```
+
+In this setup, **only nginx** is exposed to the outside world. Everything else is locked down internally. This is the most secure approach.
+
+### Common Mistake to Avoid
+
+Don't do this in production:
+
+```yaml
+postgres:
+  ports:
+    - "5432:5432"  # ❌ Database exposed to host = security risk!
+```
+
+Do this instead:
+
+```yaml
+postgres:
+  expose:
+    - "5432"  # Only accessible within Docker network
+```
+
+The key insight: **`expose` is about documentation and internal networking, `ports` is about external access.**&#x20;
+
+### How to define Database URL in .env file, when multiple containers are running
+
+
+
+
+
+</details>
