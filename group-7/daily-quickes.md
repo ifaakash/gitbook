@@ -244,3 +244,60 @@ The key insight: **`expose` is about documentation and internal networking, `por
 
 
 </details>
+
+<details>
+
+<summary>12th Nov</summary>
+
+{% code lineNumbers="true" %}
+```yaml
+docker@docker:~/Fitbuddy_backup$ docker run -it --rm -v $(pwd)/backup:/fit-backup-volume -v fitbuddy_fitbuddy_db_volume:/fit-backup-volume alpine sh
+docker: Error response from daemon: Duplicate mount point: /fit-backup-volume
+
+docker@docker:~/Fitbuddy_backup$ docker run -it --rm -v $(pwd)/backup:/fit-backup-volume -v fitbuddy_fitbuddy_db_volume:/to alpine sh
+/ # ls
+bin                fit-backup-volume  media              proc               sbin               tmp                var
+dev                home               mnt                root               srv                to
+etc                lib                opt                run                sys                usr
+
+/ # cd to/
+/to # ls
+PG_VERSION            pg_dynshmem           pg_multixact          pg_snapshots          pg_tblspc             postgresql.auto.conf
+base                  pg_hba.conf           pg_notify             pg_stat               pg_twophase           postgresql.conf
+global                pg_ident.conf         pg_replslot           pg_stat_tmp           pg_wal                postmaster.opts
+pg_commit_ts          pg_logical            pg_serial             pg_subtrans           pg_xact
+
+/to # cd ..
+/ # ls
+bin                fit-backup-volume  media              proc               sbin               tmp                var
+dev                home               mnt                root               srv                to
+etc                lib                opt                run                sys                usr
+
+
+/ # cd ..
+/ # ls
+bin                fit-backup-volume  media              proc               sbin               tmp                var
+dev                home               mnt                root               srv                to
+etc                lib                opt                run                sys                usr
+
+
+/ # cd fit-backup-volume/
+/fit-backup-volume # ls
+/fit-backup-volume # cd ..
+
+
+/ # cp -a to/. fit-backup-volume/
+/ # cd fit-backup-volume/
+/fit-backup-volume # ls
+PG_VERSION            pg_dynshmem           pg_multixact          pg_snapshots          pg_tblspc             postgresql.auto.conf
+base                  pg_hba.conf           pg_notify             pg_stat               pg_twophase           postgresql.conf
+global                pg_ident.conf         pg_replslot           pg_stat_tmp           pg_wal                postmaster.opts
+pg_commit_ts          pg_logical            pg_serial             pg_subtrans           pg_xact
+
+/fit-backup-volume # exit
+docker@docker:~/Fitbuddy_backup$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+{% endcode %}
+
+</details>

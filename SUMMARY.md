@@ -29,6 +29,7 @@
   * [Networking in Docker](group-3/docker/networking-in-docker.md)
   * [How to containerize different language application](group-3/docker/how-to-containerize-different-language-application.md)
   * [Understanding OS kernel before containerization](group-3/docker/understanding-os-kernel-before-containerization.md)
+  * [Creating backup of a Docker volume in local](group-3/docker/creating-backup-of-a-docker-volume-in-local.md)
 
 ## Group 4
 
