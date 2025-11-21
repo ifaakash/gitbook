@@ -301,3 +301,49 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 {% endcode %}
 
 </details>
+
+<details>
+
+<summary>21th Nov</summary>
+
+Python function in \`aicommitter\` to display the docs for common command and "How to start"
+
+```python
+def getReadme(filepath: str= "README_POST_INSTALL.md") -> str:
+    try:
+        with open(filepath, "r", "") as f:
+            return f.read()
+    except FileNotFoundError:
+        return typer.style(
+            f"Error: Documentation file '{filepath}' not found in the current directory.",
+            fg=typer.colors.REDs,
+        )
+    except Exception as e:
+        return typer.style(
+            f"Error reading documentation file: {e}", fg=typer.colors.RED
+        )
+```
+
+Run the python function when the user runs the aicommitter with a particular flag ( aicommitter docs )
+
+```python
+@app.command(name= "docs")
+def show_docs():
+    readme_content = getReadme()
+    typer.echo(readme_content)
+```
+
+
+
+
+
+
+
+</details>
+
+
+
+
+
+
+
