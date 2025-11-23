@@ -636,7 +636,31 @@ CMD ["node", "dist/main.js"]
 
 </details>
 
+<details>
 
+<summary>24th Nov</summary>
+
+## **Use&#x20;**_**docker logs**_**&#x20;but fancy**
+
+#### Install **Stern**
+
+```bash
+brew install stern
+```
+
+Then:
+
+```bash
+stern .
+```
+
+Streams logs from all running containers. No UI though.
+
+
+
+
+
+</details>
 
 
 
