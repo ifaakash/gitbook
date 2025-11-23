@@ -341,6 +341,305 @@ def show_docs():
 
 </details>
 
+<details>
+
+<summary>23rd Nov</summary>
+
+### Monorepo structure for application
+
+**In a monorepo, unrelated changes can make Docker do unnecessary work when deploying your app.**
+
+\
+So, to handle this, we use tool like turborepo that helps to separate out the dependency of the application.&#x20;
+
+eg, the frontend application willl not trigger the build process of backend application, when any particular change is made to frontend `package.json`
+
+Let's imagine you have a monorepo that looks like this:
+
+![](<../.gitbook/assets/image (10).png>)
+
+```yaml
+.
+├── README.md
+├── WARP.md
+├── apps
+│   ├── api ( workspace 1 )
+│   │   ├── Dockerfile
+│   │   ├── README.md
+│   │   ├── nest-cli.json
+│   │   ├── package.json
+│   │   ├── src
+│   │   └── tsconfig.json
+│   └── web ( workspace 2 )
+│       ├── Dockerfile
+│       ├── index.html
+│       ├── package.json
+│       ├── src
+│       ├── tsconfig.json
+│       ├── tsconfig.node.json
+│       └── vite.config.ts
+├── docker-compose.yml
+├── package-lock.json
+├── package.json
+├── packages
+│   └── domain
+│       ├── package.json
+│       ├── src
+│       └── tsconfig.json
+└── turbo.json
+```
+
+You want to deploy `apps/api` using Docker, so you create a Dockerfile:
+
+```docker
+FROM node:16
+ 
+WORKDIR /usr/src/app
+ 
+# Copy root package.json and lockfile
+COPY package.json ./
+COPY package-lock.json ./
+ 
+# Copy the api package.json
+COPY apps/api/package.json ./apps/api/package.json
+ 
+RUN npm install
+ 
+# Copy app source
+COPY . .
+ 
+EXPOSE 8080
+ 
+CMD [ "node", "apps/api/server.js" ]
+```
+
+This will copy the root `package.json` and the root lockfile to the Docker image. Then, it'll install dependencies, copy the app source and start the app.
+
+### Lockfile changes too often to trigger multiple build
+
+{% hint style="warning" %}
+**Installing a package inside `apps/api` should NOT change the root `package.json`**, _unless you are using a workspace setup that intentionally links them_.\
+But the **root `package-lock.json`** _**will**_**&#x20;change**, because npm workspaces keep a single lockfile.
+{% endhint %}
+
+## Why does the lockfile change globally?
+
+Because npm workspaces dedupe dependencies across the repo.
+
+Example:
+
+If `apps/api` installs `axios@1.7.2` and `apps/web` installs `axios@1.7.1`, npm will:
+
+* try to place one version at the root-level `node_modules`
+* resolve workspace dependency graph globally
+* store EVERYTHING in a single lockfile
+
+So even small workspace installs rewrite the global lockfil
+
+## “If the root package-lock.json changes, do both apps rebuild?”
+
+**Yes, in most CI/CD setups.**\
+Because most pipelines check:
+
+```
+ON CHANGE of:
+- apps/api/**
+- apps/web/**
+- package.json
+- package-lock.json
+```
+
+And since `package-lock.json` is **shared**, a change in `apps/api` can trigger:
+
+* rebuilding `apps/api` (expected)
+* rebuilding `apps/web` (unexpected but normal for monorepos)
+
+This is exactly why monorepos with **a single lockfile** have this drawback. To tackle this, we have turbo setup with us
+
+If workspace B package.json changes → workspace A DOES NOT rebuild
+
+#### If workspace A package.json changes → workspace B DOES NOT rebuild
+
+#### ✔ Each workspace only tracks its OWN `inputs`.
+
+#### Why this works
+
+Turbo resolves `inputs` relative to the workspace where the command runs:
+
+```
+apps/api/build → inputs resolve inside apps/api
+apps/web/build → inputs resolve inside apps/web
+```
+
+Nothing outside that directory is considered — unless you explicitly put:
+
+```
+"inputs": ["../../package.json"]
+```
+
+…which you didn’t.
+
+So everything stays nicely isolated.
+
+\
+If I install a package inside API, does root package.json change?
+
+**No. Only `apps/api/package.json` changes.**
+
+#### If the root package.json changes, do both apps rebuild?
+
+**Usually yes**, unless Turbo pipeline ignores it.
+
+#### Does installing inside API modify root package.json?
+
+**Never.**\
+But it **always modifies root package-lock.json**.
+
+### Turbo Repo setup
+
+[https://turborepo.com/docs/guides/tools/docker#the-lockfile-changes-too-often](https://turborepo.com/docs/guides/tools/docker#the-lockfile-changes-too-often)
+
+## Workspace in Turbo
+
+Each directory ( api or web ) in repository means a workspace for turbo. So, `api`  is a workspace. By default, turbo stores a package.json file at workspace level
+
+```json
+{
+  "pipeline": {
+    "build": {
+      "inputs": ["src/**", "package.json"], 
+      "outputs": ["dist/**"]
+    }
+  }
+}
+```
+
+## How Turbo resolves file paths
+
+Turbo resolves `inputs` paths **relative to the workspace directory**, not the root of the repo.
+
+So for:
+
+```
+apps/api
+├── src
+├── package.json
+```
+
+Turbo sees:
+
+```
+apps/api/src/**
+apps/api/package.json
+```
+
+Root files are irrelevant unless referenced with `../..`&#x20;
+
+{% hint style="warning" %}
+"inputs": \["src/\*\*", "package.json", "../../package.json"]
+{% endhint %}
+
+#### **Turbo Default Inputs**
+
+* All files in the workspace\
+  `**/*`
+* Root-level package-lock.json
+* Root-level package.json
+* Workspace-level package.json
+* tsconfig.json
+* .env files
+* Basically everything except ignored stuff
+* _AND_ files in dependent workspaces
+
+### Containerisation
+
+\
+**Use `turbo prune` to send only relevant code to Docker**
+
+This is the #1 best practice for monorepos.
+
+Example (for api):
+
+```
+turbo prune --scope=api --docker
+```
+
+Outputs:
+
+```
+./out/
+  json/
+  full/
+```
+
+Docker builds using the **pruned workspace**, meaning:
+
+* only api
+* only its direct dependencies
+* NOT web
+* NOT unrelated packages
+* NOT entire monorepo
+
+This speeds up builds by 10–20x.
+
+***
+
+### **2. Use Multi-Stage Docker Builds with Turbo Cache Layers**
+
+```docker
+# -----------------------
+# 1. Base Turbo layer
+# -----------------------
+FROM node:18 AS base
+WORKDIR /app
+
+# Install only root deps for pruning
+COPY . .
+RUN npm install -g turbo
+
+# -----------------------
+# 2. Prune the workspace
+# -----------------------
+FROM base AS pruned
+RUN turbo prune --scope=api --docker
+
+# -----------------------
+# 3. Install dependencies
+# -----------------------
+FROM node:18 AS deps
+WORKDIR /app
+COPY --from=pruned /app/out/json/ .
+RUN npm ci
+
+# -----------------------
+# 4. Build app
+# -----------------------
+FROM node:18 AS builder
+WORKDIR /app
+COPY --from=pruned /app/out/full/ .
+COPY --from=deps /app/node_modules ./node_modules
+RUN npm run build
+
+# -----------------------
+# 5. Final runtime image
+# -----------------------
+FROM node:18-slim AS runner
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+CMD ["node", "dist/main.js"]
+
+```
+
+
+
+
+
+</details>
+
+
+
+
+
 
 
 

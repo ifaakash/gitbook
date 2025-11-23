@@ -6,8 +6,7 @@ Knowledge of the concepts and principles of cloud based microservices such as: s
 
 AWS or GCP or similar experience preferred
 
-\
-
+<br>
 
 **Advanced linux command line fluency**
 
@@ -19,8 +18,7 @@ Understand how to create a good command line UX
 
 Proficient in a suite of command line tools: kubectl, helm, git, bash, docker, ssh, and others for DevOps workflows
 
-\
-
+<br>
 
 **Authorization and Secret Management:**
 

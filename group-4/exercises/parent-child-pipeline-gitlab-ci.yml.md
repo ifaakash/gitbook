@@ -60,8 +60,7 @@ first-job: \[ this is the job ]
 &#x20; stage: stg1
 {% endhint %}
 
-MORE RE-DEFINED APPROACH:\
-
+MORE RE-DEFINED APPROACH:<br>
 
 ```yaml
 // Some code
