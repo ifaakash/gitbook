@@ -656,9 +656,25 @@ stern .
 
 Streams logs from all running containers. No UI though.
 
+### Using lazydocker for GUI
 
+[https://github.com/jesseduffield/lazydocker](https://github.com/jesseduffield/lazydocker)
 
+Lazydocker provide a GUI for checking what containers are running, clubbing containers based on project, created using `docker-compose.yml`
 
+**Installation**
+
+```
+brew install lazydocker
+```
+
+For using this often, add an alias in your local shell
+
+**For mac**
+
+```
+echo "alias lzd='lazydocker'" >> ~/.zshrc
+```
 
 </details>
 
