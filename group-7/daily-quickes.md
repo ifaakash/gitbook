@@ -676,6 +676,37 @@ For using this often, add an alias in your local shell
 echo "alias lzd='lazydocker'" >> ~/.zshrc
 ```
 
+### Enable support for multi environment variables&#x20;
+
+What is way to get a particular variable from a variable ( named environment\_variables ) that holds variables using different name ( like key:pari ) and i can get the value using
+
+var.environment\_variables\["DEPLOY\_ENV"]
+
+```terraform
+variable "environment_variables" {
+  type = map(string)
+  default = {
+    DEPLOY_ENV   = "prod"
+    REGION       = "us-east-1"
+    PARI         = "value123"
+  }
+}
+```
+
+Try accessing variable like below:
+
+```terraform
+var.environment_variables["DEPLOY_ENV"]
+```
+
+or, using dot notation (only if the key is a valid identifier):
+
+```terraform
+var.environment_variables.DEPLOY_ENV
+```
+
+
+
 </details>
 
 
