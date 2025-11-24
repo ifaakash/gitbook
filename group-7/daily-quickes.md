@@ -705,9 +705,97 @@ or, using dot notation (only if the key is a valid identifier):
 var.environment_variables.DEPLOY_ENV
 ```
 
+</details>
+
+<details>
+
+<summary>25th Nov</summary>
+
+#### Is Nginx needed?
+
+Short Answer: Yes, absolutely.
+
+Why? Your React application is just a collection of static files (HTML/JS). It has no "brain" or "server" of its own to listen for incoming requests.
+
+* Node.js/NestJS (API): Can listen to ports and serve requests.
+* React/Vite (Web): Cannot listen to ports on its own after it is built.
+
+You need a web server to say, "Hi, I am listening on port 80. If anyone asks for the website, I will give them this `index.html` file." Nginx is the industry standard for this because it is incredibly fast and lightweight.
+
+#### 1. The Problem: "Real" Files vs. "Fake" Routes
+
+Imagine your Nginx container is a file cabinet. Inside that cabinet, after you build your project, you have exactly these files:
+
+* `index.html`
+* `style.css`
+* `main.js`
+
+Scenario A: Clicking a Link (Client-Side Routing)
+
+1. You land on `localhost`. Nginx gives you `index.html`.
+2. React loads in your browser.
+3. You click a button that says "Go to Dashboard".
+4. Crucial Part: The browser does not talk to the server. React simply erases the "Home" component from the screen and draws the "Dashboard" component. It also changes the URL bar to `/dashboard` to be helpful.
+5. Result: Everything works. Nginx didn't even know you changed pages.
+
+Scenario B: The Refresh (Server-Side Routing)
+
+1. You are looking at `localhost/dashboard`.
+2. You hit Refresh.
+3. The browser forgets everything React was doing. It makes a brand new HTTP request to Nginx: _"Hey, give me the file named dashboard inside the folder /."_
+4. Nginx looks in the file cabinet.
+   * Is there a file named `dashboard`? No.
+   * Is there a folder named `dashboard/index.html`? No.
+5. Result: Nginx follows standard protocol and throws a 404 Not Found error.
+
+***
+
+#### 2. The Solution: The Nginx "Catch-All"
+
+We need to teach Nginx to stop being so literal. We need to tell it: _"If you can't find the file the user asked for, don't panic. Just give them the index.html file anyway."_
+
+Once the browser receives `index.html`, React loads up again, looks at the URL (`/dashboard`), and says, "Oh, the user is at /dashboard! I should render the Dashboard component."
+
+**The Magic Command**
+
+This logic is handled by this single line in `nginx.conf`:
+
+Nginx
+
+```
+try_files $uri $uri/ /index.html;
+```
+
+Here is the step-by-step translation of what Nginx does with this command when you request `/dashboard`:
+
+1. `$uri`: "Does a file named `dashboard` exist?"
+   * _Nginx Checks:_ No.
+   * _Action:_ Move to next step.
+2. `$uri/`: "Does a directory named `dashboard/` exist?"
+   * _Nginx Checks:_ No.
+   * _Action:_ Move to next step.
+3. `/index.html`: "Okay, I give up. Just serve `/index.html`."
+   * _Nginx Checks:_ Yes, that file exists!
+   * _Action:_ Send `index.html` to the browser with a "200 OK" status.
+
+#### Summary
+
+* The Problem: The URL `/dashboard` is a "virtual" location that only exists inside React's memory. It does not exist as a file on the server's hard drive.
+* The Solution: We configure Nginx to serve the entry point (`index.html`) for _every_ unknown request, allowing React to take over and handle the routing inside the browser.
+
+**CLIENT SIDE VS SERVER SIDE ( role of nginx )**&#x20;
+
+
+
+
+
+
+
 
 
 </details>
+
+
 
 
 
