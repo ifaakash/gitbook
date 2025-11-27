@@ -795,7 +795,48 @@ Here is the step-by-step translation of what Nginx does with this command when y
 
 </details>
 
+<details>
 
+<summary>27th Nov</summary>
+
+Execution role (`ecsTaskExecutionRole`) is only for:
+
+* Pulling images from ECR
+* Sending logs to CloudWatch
+
+\
+It cannot access application secrets.
+
+Your app uses **Task Role**, not Execution Role.
+
+### **Squash Merge (Clean & Nice for Long-Running Branches)**
+
+This makes your 150 commits appear as **one single commit** in `main`.
+
+```bash
+git checkout main
+git pull origin main
+git merge --squash your-branch
+git commit -m "Your feature summary"
+git push origin main
+```
+
+Good when:
+
+* The branch spammed unnecessary commits like “fix typo”, “lol ok now it works”.
+* You want a clean main branch.
+
+
+
+## P41Pulse Monorepo
+
+```
+[![Deploy P41Pulse Infra](https://github.com/Particle41/p41-hack-team-1/actions/workflows/deployment.yml/badge.svg)](https://github.com/Particle41/p41-hack-team-1/actions/workflows/deployment.yml)
+```
+
+A Turborepo monorepo with NestJS backend and React frontend.
+
+</details>
 
 
 
