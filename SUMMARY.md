@@ -71,3 +71,7 @@
 
 * [Important kernel path for DevOps](important-kernel-path-for-devops.md)
 * [Discussion Images](discussion-images.md)
+
+## Group 9
+
+* [Packages](group-9/packages.md)
