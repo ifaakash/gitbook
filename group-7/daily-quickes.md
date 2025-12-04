@@ -838,7 +838,36 @@ A Turborepo monorepo with NestJS backend and React frontend.
 
 </details>
 
+<details>
 
+<summary>5th Dec</summary>
+
+## Changelog
+
+```md
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+### Added
+- New user authentication system
+
+## [1.2.0] - 2025-12-05
+### Added
+- Dark mode support
+- Export to PDF functionality
+
+### Fixed
+- Bug where images wouldn't load on mobile
+
+## [1.1.0] - 2025-11-15
+### Changed
+- Improved search performance
+- Updated dependencies
+```
+
+</details>
 
 
 
