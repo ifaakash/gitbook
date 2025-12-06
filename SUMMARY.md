@@ -75,3 +75,7 @@
 ## Group 9
 
 * [Packages](group-9/packages.md)
+
+## Group 10
+
+* [Daily Do's](group-10/daily-dos.md)
