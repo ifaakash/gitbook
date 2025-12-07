@@ -869,7 +869,15 @@ All notable changes to this project will be documented in this file.
 
 </details>
 
+<details>
 
+<summary>7th Dec</summary>
+
+```
+grep -E "README|pyproject"
+```
+
+</details>
 
 
 
