@@ -879,7 +879,65 @@ grep -E "README|pyproject"
 
 </details>
 
+<details>
 
+<summary>11th Dec</summary>
+
+Granting permission to user in RDS SQL Server
+
+```sql
+db_owner (everything below + more)
+    ├── db_datareader (read all tables)
+    ├── db_datawriter (insert/update/delete all tables)
+    ├── db_ddladmin (create/alter/drop objects)
+    ├── db_securityadmin (manage permissions)
+    ├── db_accessadmin (add/remove users)
+    ├── db_backupoperator (backup database)
+    └── ... and much more
+```
+
+```sql
+-- If you DON'T want to give full db_owner, use these instead:
+ALTER ROLE db_datareader ADD MEMBER [ricardo.valladares];
+ALTER ROLE db_datawriter ADD MEMBER [ricardo.valladares];
+ALTER ROLE db_ddladmin ADD MEMBER [ricardo.valladares];
+-- This gives them read/write/DDL but NOT security management
+```
+
+```sql
+USE [master];
+GO
+
+# Check what user exists with what permission in the database
+SELECT 
+    dp.name AS UserName,
+    dp.type_desc AS UserType,
+    dp.create_date,
+    STRING_AGG(drole.name, ', ') WITHIN GROUP (ORDER BY drole.name) AS DatabaseRoles
+FROM sys.database_principals dp
+LEFT JOIN sys.database_role_members drm ON dp.principal_id = drm.member_principal_id
+LEFT JOIN sys.database_principals drole ON drm.role_principal_id = drole.principal_id
+WHERE dp.type IN ('S', 'U')  -- S = SQL user, U = Windows user
+  AND dp.name NOT IN ('dbo', 'guest', 'INFORMATION_SCHEMA', 'sys', 'public')
+GROUP BY dp.name, dp.type_desc, dp.create_date
+ORDER BY dp.name;
+
+# Add permission to user in a particular database
+alter role db_owner add member [karl.hansen]
+
+use [dev-smp];
+alter role db_datareader drop member [karl.hansen]
+alter role db_datawriter drop member [karl.hansen]
+alter role db_ddladmin drop member [karl.hansen]"
+```
+
+
+
+
+
+
+
+</details>
 
 
 
