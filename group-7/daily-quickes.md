@@ -931,9 +931,9 @@ alter role db_datawriter drop member [karl.hansen]
 alter role db_ddladmin drop member [karl.hansen]"
 ```
 
+> Implement this in AICOMMITTER
 
-
-
+<figure><img src="../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
 
 
