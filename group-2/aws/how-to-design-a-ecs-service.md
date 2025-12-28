@@ -2,7 +2,7 @@
 icon: aws
 ---
 
-# How to design aECS Service
+# How to design a ECS Service
 
 ## Example Codebase
 
