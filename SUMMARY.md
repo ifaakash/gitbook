@@ -6,6 +6,7 @@
   * [How does SSM Works in AWS?](group-2/aws/how-does-ssm-works-in-aws.md)
   * [How to setup OIDC connection with Github Repository?](group-2/aws/how-to-setup-oidc-connection-with-github-repository.md)
   * [NAT with EIP](group-2/aws/nat-with-eip.md)
+  * [How to design aECS Service](group-2/aws/how-to-design-aecs-service.md)
 
 ## Group 1
 
