@@ -81,3 +81,7 @@
 ## Group 10
 
 * [Daily Do's](group-10/daily-dos.md)
+
+***
+
+* [Random commands](random-commands.md)
