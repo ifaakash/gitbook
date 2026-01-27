@@ -74,3 +74,101 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
       #     echo "MODX service deployment completed successfully!"
 
 ```
+
+<details>
+
+<summary>MariaDB commands</summary>
+
+* **Check number of tables**&#x20;
+
+```sql
+SELECT COUNT(*) AS table_count
+FROM information_schema.tables
+WHERE table_schema = 'u708493671_app';
+```
+
+* **Foreign Key Count**
+
+```sql
+SELECT COUNT(*) AS fk_count
+FROM information_schema.table_constraints
+WHERE table_schema = 'u708493671_app'
+AND constraint_type = 'FOREIGN KEY';
+```
+
+* **List Triggers**
+
+```sql
+SELECT
+    trigger_name,
+    event_manipulation AS trigger_event, 
+    event_object_table AS target_table
+FROM information_schema.triggers
+WHERE trigger_schema = 'u708493671_app'
+ORDER BY event_object_table, trigger_name;
+```
+
+* **Row Count**
+
+```sql
+SELECT COUNT(*) AS total_violations
+FROM cv360_violation_data;
+```
+
+* **Row Count: cv360\_inspection\_data**
+
+```sql
+SELECT COUNT(*) AS total_inspections
+FROM cv360_inspection_data;
+```
+
+
+
+
+
+/var/snap/amazon-ssm-agent/
+
+
+
+</details>
+
+
+
+<details>
+
+<summary>AWS CLI commands</summary>
+
+```
+aws s3 cp s3://bucket .
+```
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
